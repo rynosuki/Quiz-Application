@@ -7,8 +7,8 @@ export default class gameHandler {
   constructor() {
     this.startURL = "https://courselab.lnu.se/quiz/question/1"
     this.nextURL = "https://courselab.lnu.se/quiz/question/1"
-    this.logic = new logicHandler()
     this.state = new stateHandler(this)
+    this.logic = new logicHandler(this.state)
     this.render = new renderHandler(this.state)
     this.post = new postHandler()
   }
@@ -18,7 +18,7 @@ export default class gameHandler {
     switch (currentState) {
       case this.state.gameStates.Start:
         this.nextURL = this.startURL
-        this.logic.currentUser = undefined
+        this.logic.reset()
         this.render.renderStart()
         break
 
@@ -26,13 +26,15 @@ export default class gameHandler {
         if (this.state.prevState === this.state.gameStates.NameChoice) {
           this.logic.setName()
         }
-        await this.post.getQuestion(this.nextURL).then((data) => {
+        this.post.getQuestion(this.nextURL).then((data) => {
           this.nextURL = data.nextURL
           this.render.renderQuestion(data.question, data.alternatives)
+          this.logic.initTimer() == true
         })
         break
 
       case this.state.gameStates.Answered:
+        this.logic.questionAnswered()
         let answer = null
         if (this.post.currentQuestion.alternatives == undefined) {
           answer = document.getElementById('input').value
@@ -43,24 +45,27 @@ export default class gameHandler {
             }
           })
         }
-        let data = await this.post.postAnswer(this.nextURL, { 'answer': answer })
-        if (data.nextURL === undefined) {
+        let data = undefined
+        if ((data = await this.post.postAnswer(this.nextURL, { 'answer': answer })) == false) {
+          this.state.changeState(this.state.gameStates.GameLost)
+        } else if (data.nextURL === undefined) {
+          console.log(data)
           this.state.changeState(this.state.gameStates.GameWon)
-        } else if (data != undefined) {
+        } else {
           this.nextURL = data.nextURL
           this.render.renderAnswered()
-        } else {
-          this.state.changeState(this.state.gameStates.GameLost)
         }
         break
 
       case this.state.gameStates.GameLost:
+        this.render.renderGameLost()
         break
 
       case this.state.gameStates.GameWon:
-        this.render.renderGameWon(100)
+        this.render.renderGameWon(Math.floor(this.logic.timeTaken / 1000))
+        this.logic.updateLeaderboard()
         break
-        
+
       case this.state.gameStates.NameChoice:
         this.render.renderNameRequest()
         break

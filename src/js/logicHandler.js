@@ -1,49 +1,65 @@
-import timerHandler from "./timerHandler.js";
-
 export default class logicHandler {
-  constructor() {
-    this.timer = new timerHandler()
+  constructor(state) {
     this.currentUser = undefined
-  }
+    this.timeTaken = 0
+    this.timeCurrent = 0
+    this.state = state
+    this.currentTimer = undefined
 
-  logicGetAnswer(data) {
-    console.log(data)
-    // if(this.currentQuestion.alternatives === undefined) {
-    //   let answer = document.getElementById('Answer-Box').value
-    //   this.#answerChecker(answer)
-    // } else {
-    //   let answer = new FormData(e.target).get('answer')
-    //   this.#answerChecker(answer)
-    // }
-
-    // this.#postAnswer(this.currentQuestion.nextURL, {'answer': answer}).then(result => {
-    //   if(result) {
-    //     let answerResult = document.getElementById("Answer-Result")
-    //     answerResult.innerHTML = 'Correct Answer!'
-    //     document.getElementById("Submit").innerHTML = "Next Question"
-    //     this.totalTimeElapsed += this.timeElapsedCurrent
-    //     this.currentGameState = this.gameState.Question
-    //   } else {
-    //     let answerResult = document.getElementById("Answer-Result")
-    //     answerResult.innerHTML = 'Wrong Answer!'
-    //     this.currentGameState = this.gameState.GameOver
-    //   }
-    // })
+    this.logicLeaderboard()
   }
 
   logicLeaderboard() {
-
+    if (localStorage.getItem('topList') === null) {
+      localStorage.setItem('topList', JSON.stringify([
+        {name:'None', value:999},
+        {name:'None', value:999},
+        {name:'None', value:999},
+        {name:'None', value:999},
+        {name:'None', value:999}
+      ]))
+    }
   }
 
-  logicGameLost() {
-
+  updateLeaderboard() {
+    let topList = JSON.parse(localStorage.getItem('topList'))
+    let added = false
+    console.log(topList)
+    for (let i = 0; i < 5; i++) {
+      if (Math.floor(this.timeTaken / 1000) < topList[i].value && !added) {
+        topList.splice(i, 0, {name: this.currentUser, value: Math.floor(this.timeTaken / 1000)})
+        topList.pop()
+        localStorage.setItem('topList', JSON.stringify(topList))
+        added = true
+      }
+    }
   }
 
-  logicGameWon() {
+  initTimer() {
+    let initTime = Date.now()
+    
+    this.currentTimer = setInterval(() => {
+      this.timeCurrent = (Date.now() - initTime); // milliseconds elapsed since start
+      document.getElementById('timer').innerHTML = "Time left: " + Math.floor((10000 - this.timeCurrent) / 1000) // in seconds
+      if((10000 - this.timeCurrent) / 1000 < 0) {
+        this.state.changeState(this.state.gameStates.GameLost)
+        clearInterval(this.currentTimer)
+      }
+    }, 1000);
+  }
 
+  questionAnswered() {
+    this.timeTaken += this.timeCurrent
+    clearInterval(this.currentTimer)
+    console.log(this.timeTaken)
   }
 
   setName() {
     this.currentUser = document.getElementById('Input-Text').value
+  }
+
+  reset() {
+    this.currentUser = undefined
+    this.timeTaken = 0
   }
 } 

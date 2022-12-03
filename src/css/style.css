@@ -1,5 +1,6 @@
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -57,4 +58,37 @@ input[type=text] {
 .Form-Details {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.Leaderboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #ECCE8E;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background-color: #270722;
+  color: #C2C6A7;
+  width: 20vw;
+  height: 5vh;
+}
+
+.leaderBoard {
+  position: absolute;
+  top: 40vh;
+  right: 10vw;
+  border: 5px solid #ECCE8E;
+  border-bottom: none;
+  border-radius: 10px;
+  background-color: #DBCF96;
+  padding: 2rem;
+}
+
+.leaderBoard > h1 {
+  margin: 0;
+}
+
+.active {
+  background-color: #521049;
 }
