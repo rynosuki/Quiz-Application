@@ -1,14 +1,14 @@
 export default class postHandler {
-  constructor() {
+  constructor () {
     this.currentQuestion = undefined
   }
 
-  async getQuestion(link) {
-    this.currentQuestion = await fetch(link).then((response) => response.json());
+  async getQuestion (link) {
+    this.currentQuestion = await fetch(link).then((response) => response.json())
     return this.currentQuestion
   }
 
-  async postAnswer(link, data = {}) {
+  async postAnswer (link, data = {}) {
     return await fetch(link, {
       method: 'POST',
       headers: {
@@ -16,8 +16,8 @@ export default class postHandler {
       },
       body: JSON.stringify(data)
     }).then((response) => {
-      if(response.ok) {
-        let data = response.json()
+      if (response.ok) {
+        const data = response.json()
         return data
       } else {
         return false

@@ -39,6 +39,7 @@ button:hover {
 .Information-Wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 input[type=text] {
@@ -55,10 +56,27 @@ input[type=text] {
   outline: none;
 }
 
+.Form-Details input[type=radio] {
+  accent-color: #270722;
+  height: 16;
+  width: 16;
+}
+
 .Form-Details {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 16;
+  text-align: right;
+}
+
+#answerDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 20vw;
+  word-break: break-all;
+  text-align: left;
+  padding-bottom: 10px;
 }
 
 .Leaderboard {
@@ -74,12 +92,15 @@ input[type=text] {
   height: 5vh;
 }
 
+.Leaderboard:hover {
+  background-color: #521049;
+}
+
 .leaderBoard {
   position: absolute;
   top: 40vh;
   right: 10vw;
   border: 5px solid #ECCE8E;
-  border-bottom: none;
   border-radius: 10px;
   background-color: #DBCF96;
   padding: 2rem;

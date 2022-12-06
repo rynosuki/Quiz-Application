@@ -1,4 +1,4 @@
-import gameHandler from "./gameHandler.js";
+import GameHandler from './gameHandler.js'
 
-const game = new gameHandler()
+const game = new GameHandler()
 game.runGame()

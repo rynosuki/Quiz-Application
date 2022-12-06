@@ -1,20 +1,20 @@
-import logicHandler from "./logicHandler.js";
-import renderHandler from "./renderHandler.js";
-import postHandler from "./postHandler.js";
-import stateHandler from "./stateHandler.js";
+import LogicHandler from './logicHandler.js'
+import RenderHandler from './renderHandler.js'
+import PostHandler from './postHandler.js'
+import StateHandler from './stateHandler.js'
 
 export default class gameHandler {
-  constructor() {
-    this.startURL = "https://courselab.lnu.se/quiz/question/1"
-    this.nextURL = "https://courselab.lnu.se/quiz/question/1"
-    this.state = new stateHandler(this)
-    this.logic = new logicHandler(this.state)
-    this.render = new renderHandler(this.state)
-    this.post = new postHandler()
+  constructor () {
+    this.startURL = 'https://courselab.lnu.se/quiz/question/1'
+    this.nextURL = 'https://courselab.lnu.se/quiz/question/1'
+    this.state = new StateHandler(this)
+    this.logic = new LogicHandler(this.state)
+    this.render = new RenderHandler(this.state)
+    this.post = new PostHandler()
   }
 
-  async runGame(currentState = this.state.gameStates.Start) {
-    console.log(this.state.currentGameState)
+  async runGame (currentState = this.state.gameStates.Start) {
+    // console.log(this.state.currentGameState)
     switch (currentState) {
       case this.state.gameStates.Start:
         this.nextURL = this.startURL
@@ -29,14 +29,14 @@ export default class gameHandler {
         this.post.getQuestion(this.nextURL).then((data) => {
           this.nextURL = data.nextURL
           this.render.renderQuestion(data.question, data.alternatives)
-          this.logic.initTimer() == true
+          // this.logic.initTimer()
         })
         break
 
       case this.state.gameStates.Answered:
         this.logic.questionAnswered()
-        let answer = null
-        if (this.post.currentQuestion.alternatives == undefined) {
+        let answer
+        if (this.post.currentQuestion.alternatives === undefined) {
           answer = document.getElementById('input').value
         } else {
           document.getElementsByName('answer').forEach(x => {
@@ -45,8 +45,8 @@ export default class gameHandler {
             }
           })
         }
-        let data = undefined
-        if ((data = await this.post.postAnswer(this.nextURL, { 'answer': answer })) == false) {
+        let data
+        if ((data = await this.post.postAnswer(this.nextURL, { answer })) === false) {
           this.state.changeState(this.state.gameStates.GameLost)
         } else if (data.nextURL === undefined) {
           console.log(data)

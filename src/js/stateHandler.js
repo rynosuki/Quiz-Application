@@ -1,5 +1,5 @@
 export default class stateHandler {
-  constructor(game) {
+  constructor (game) {
     this.game = game
 
     this.gameStates = {
@@ -15,7 +15,7 @@ export default class stateHandler {
     this.currentGameState = this.gameStates.Start
   }
 
-  changeState(state) {
+  changeState (state) {
     this.prevState = this.currentGameState
     this.currentGameState = state
     this.game.runGame(this.currentGameState)
