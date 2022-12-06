@@ -125,23 +125,20 @@ export default class renderHandler {
       return this.createElement({ type: 'input', style: 'text', id: 'input', name: 'answer' })
     } else {
       const tempDiv = this.createElement({ type: 'div' })
-      for (let i = 1; i < Object.keys(data).length + 1; i++) {
+      for (const i of Object.keys(data)) {
         const workDiv = this.createElement({ type: 'div', id: 'answerDiv' })
         workDiv.append(this.createElement({
-          type: 'text',
-          innerHTML: data['alt' + i]
+          type: 'label',
+          innerHTML: data[i],
+          htmlFor: i
         }))
-        let radioButton = this.createElement({
+        workDiv.append(this.createElement({
           type: 'input',
           style: 'radio',
           name: 'answer',
-          value: 'alt' + i
-        })
-        radioButton.addEventListener('click', e => {
-          console.log(e)
-        })
-
-        workDiv.append(radioButton)
+          id: i,
+          value: i
+        }))
         tempDiv.append(workDiv)
       }
       return tempDiv
@@ -150,15 +147,16 @@ export default class renderHandler {
 
   /**
    *
-   * @param {*} Object containing parameters for element creation. Possible params include ->
-   * @param type element type, e.g. 'div', 'button'.
-   * @param style type of element, e.g. 'radio', 'checkbox'.
-   * @param id id of element.
-   * @param innerHTML html content of element.
-   * @param value value inside of element.
-   * @param name name of element.
-   * @param elementData
-   * @returns full element with its data.
+   * @param {object} elementData containing parameters for element creation. Possible params include ->
+   * @param {type} type element type, e.g. 'div', 'button'.
+   * @param {style} style type of element, e.g. 'radio', 'checkbox'.
+   * @param {id} id id of element.
+   * @param {innerHTML} innerHTML html content of element.
+   * @param {value} value value inside of element.
+   * @param {name} name name of element.
+   * @param {className} className class of DOM object.
+   * @param {htmlFor} htmlFor id for the binding of element.
+   * @returns {element} full element with its data.
    */
   createElement (elementData) {
     const tempElement = document.createElement(elementData.type)
@@ -179,6 +177,9 @@ export default class renderHandler {
     }
     if (elementData.className !== undefined) {
       tempElement.className = elementData.className
+    }
+    if (elementData.htmlFor !== undefined) {
+      tempElement.htmlFor = elementData.htmlFor
     }
     return tempElement
   }

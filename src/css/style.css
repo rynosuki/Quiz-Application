@@ -6,7 +6,7 @@ body {
   height: 100vh;
   padding: 0;
   margin: 0;
-  background-color: #C2C6A7;
+  background-color: #c2c6a7;
 }
 
 .Main {
@@ -17,19 +17,19 @@ body {
   text-align: center;
   height: 60vh;
   width: 40vw;
-  background-color: #DBCF96;
-  border: 5px solid #ECCE8E;
+  background-color: #dbcf96;
+  border: 5px solid #ecce8e;
   border-radius: 10px;
 }
 
 button {
   background-color: #270722;
-  color: #C2C6A7;
+  color: #c2c6a7;
   width: 20vw;
   height: 10vh;
   font-size: 20px;
   box-sizing: border-box;
-  border: 1px solid #C2C6A7;
+  border: 1px solid #c2c6a7;
 }
 
 button:hover {
@@ -48,8 +48,8 @@ input[type=text] {
   box-sizing: border-box;
   text-align: center;
   font-size: 20px;
-  background-color: #ECCE8E;
-  border: 1px solid #C2C6A7;
+  background-color: #ecce8e;
+  border: 1px solid #c2c6a7;
 }
 
 .Information-Wrapper > input[type=text]:focus {
@@ -83,11 +83,11 @@ input[type=text] {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 5px solid #ECCE8E;
+  border: 5px solid #ecce8e;
   border-bottom: none;
   border-radius: 10px 10px 0 0;
   background-color: #270722;
-  color: #C2C6A7;
+  color: #c2c6a7;
   width: 20vw;
   height: 5vh;
 }
@@ -96,13 +96,22 @@ input[type=text] {
   background-color: #521049;
 }
 
+.Leaderboard button {
+  display: none;
+}
+
+.Leaderboard img {
+  width: 8vw;
+  height: 4vh;
+}
+
 .leaderBoard {
   position: absolute;
   top: 40vh;
   right: 10vw;
-  border: 5px solid #ECCE8E;
+  border: 5px solid #ecce8e;
   border-radius: 10px;
-  background-color: #DBCF96;
+  background-color: #dbcf96;
   padding: 2rem;
 }
 

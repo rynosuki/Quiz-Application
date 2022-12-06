@@ -14,7 +14,8 @@ export default class gameHandler {
   }
 
   async runGame (currentState = this.state.gameStates.Start) {
-    // console.log(this.state.currentGameState)
+    let answer
+    let data
     switch (currentState) {
       case this.state.gameStates.Start:
         this.nextURL = this.startURL
@@ -29,13 +30,12 @@ export default class gameHandler {
         this.post.getQuestion(this.nextURL).then((data) => {
           this.nextURL = data.nextURL
           this.render.renderQuestion(data.question, data.alternatives)
-          // this.logic.initTimer()
+          this.logic.initTimer()
         })
         break
 
       case this.state.gameStates.Answered:
         this.logic.questionAnswered()
-        let answer
         if (this.post.currentQuestion.alternatives === undefined) {
           answer = document.getElementById('input').value
         } else {
@@ -45,7 +45,6 @@ export default class gameHandler {
             }
           })
         }
-        let data
         if ((data = await this.post.postAnswer(this.nextURL, { answer })) === false) {
           this.state.changeState(this.state.gameStates.GameLost)
         } else if (data.nextURL === undefined) {
