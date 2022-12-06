@@ -50,7 +50,6 @@ export default class logicHandler {
   questionAnswered () {
     this.timeTaken += this.timeCurrent
     clearInterval(this.currentTimer)
-    // console.log(this.timeTaken)
   }
 
   setName () {
