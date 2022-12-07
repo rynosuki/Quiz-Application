@@ -19,9 +19,8 @@ export default class postHandler {
       if (response.ok) {
         const data = response.json()
         return data
-      } else {
-        return false
       }
+      return false
     })
   }
 }

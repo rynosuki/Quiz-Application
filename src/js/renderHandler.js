@@ -148,15 +148,15 @@ export default class renderHandler {
   /**
    *
    * @param {object} elementData containing parameters for element creation. Possible params include ->
-   * @param {type} type element type, e.g. 'div', 'button'.
-   * @param {style} style type of element, e.g. 'radio', 'checkbox'.
-   * @param {id} id id of element.
-   * @param {innerHTML} innerHTML html content of element.
-   * @param {value} value value inside of element.
-   * @param {name} name name of element.
-   * @param {className} className class of DOM object.
-   * @param {htmlFor} htmlFor id for the binding of element.
-   * @returns {element} full element with its data.
+   * @param {string} elementData.type element type, e.g. 'div', 'button'.
+   * @param {string} elementData.style type of element, e.g. 'radio', 'checkbox'.
+   * @param {string} elementData.id id of element.
+   * @param {string} elementData.innerHTML html content of element.
+   * @param {string} elementData.value value inside of element.
+   * @param {string} elementData.name name of element.
+   * @param {string} elementData.className class of DOM object.
+   * @param {HTMLElement} elementData.htmlFor id for the binding of element.
+   * @returns {HTMLElement} full element with its data.
    */
   createElement (elementData) {
     const tempElement = document.createElement(elementData.type)
