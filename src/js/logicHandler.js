@@ -1,4 +1,12 @@
+/**
+ *
+ */
 export default class logicHandler {
+  /**
+   * Creates a new logicHandler.
+   *
+   * @param {number} state - The state of the game.
+   */
   constructor (state) {
     this.currentUser = undefined
     this.timeTaken = 0
@@ -9,31 +17,47 @@ export default class logicHandler {
     this.logicLeaderboard()
   }
 
+  /**
+   *  Creates a leaderboard in local storage if it doesn't exist.
+   */
   logicLeaderboard () {
     if (localStorage.getItem('topList') === null) {
-      localStorage.setItem('topList', JSON.stringify([
-        { name: 'None', value: 999 },
-        { name: 'None', value: 999 },
-        { name: 'None', value: 999 },
-        { name: 'None', value: 999 },
-        { name: 'None', value: 999 }
-      ]))
+      // Create an empty array to hold the top scores
+      const topScores = []
+
+      // Add some initial scores to the array
+      topScores.push({ name: 'undefined', score: Infinity })
+      topScores.push({ name: 'undefined', score: Infinity })
+      topScores.push({ name: 'undefined', score: Infinity })
+      topScores.push({ name: 'undefined', score: Infinity })
+      topScores.push({ name: 'undefined', score: Infinity })
+
+      // Store the top scores array in local storage
+      localStorage.setItem('topList', JSON.stringify(topScores))
     }
   }
 
+  /**
+   * Updates the leaderboard with the new score.
+   */
   updateLeaderboard () {
-    const topList = JSON.parse(localStorage.getItem('topList'))
-    let added = false
-    for (let i = 0; i < 5; i++) {
-      if (Math.floor(this.timeTaken / 1000) < topList[i].value && !added) {
-        topList.splice(i, 0, { name: this.currentUser, value: Math.floor(this.timeTaken / 1000) })
-        topList.pop()
-        localStorage.setItem('topList', JSON.stringify(topList))
-        added = true
-      }
-    }
+    // Retrieve the current leaderboard data from local storage
+    let topScores = JSON.parse(localStorage.getItem('topList'))
+    console.log(topScores)
+    // Add the new score to the array
+    topScores.push({ name: this.currentUser, score: Math.floor(this.timeCurrent / 1000) })
+
+    // Sort the array in descending order by score
+    topScores.sort((a, b) => a.score - b.score)
+    topScores = topScores.slice(0, 5)
+
+    // Store the updated leaderboard data in local storage
+    localStorage.setItem('topList', JSON.stringify(topScores))
   }
 
+  /**
+   * Creates a timer.
+   */
   initTimer () {
     const initTime = Date.now()
 
@@ -47,15 +71,24 @@ export default class logicHandler {
     }, 1000)
   }
 
+  /**
+   * Updates the timer.
+   */
   questionAnswered () {
     this.timeTaken += this.timeCurrent
     clearInterval(this.currentTimer)
   }
 
+  /**
+   * Sets the name of the current user.
+   */
   setName () {
     this.currentUser = document.getElementById('Input-Text').value
   }
 
+  /**
+   * Resets the game.
+   */
   reset () {
     this.currentUser = undefined
     this.timeTaken = 0

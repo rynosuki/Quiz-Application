@@ -3,7 +3,13 @@ import RenderHandler from './renderHandler.js'
 import PostHandler from './postHandler.js'
 import StateHandler from './stateHandler.js'
 
+/**
+ *
+ */
 export default class gameHandler {
+  /**
+   * Creates a new gameHandler.
+   */
   constructor () {
     this.startURL = 'https://courselab.lnu.se/quiz/question/1'
     this.nextURL = 'https://courselab.lnu.se/quiz/question/1'
@@ -13,6 +19,11 @@ export default class gameHandler {
     this.post = new PostHandler()
   }
 
+  /**
+   * Runs the game.
+   *
+   * @param {number} currentState The current state of the game.
+   */
   async runGame (currentState = this.state.gameStates.Start) {
     let answer
     let data

@@ -1,4 +1,12 @@
+/**
+ *
+ */
 export default class renderHandler {
+  /**
+   * Creates a new renderHandler.
+   *
+   * @param {number} state The state of the game.
+   */
   constructor (state) {
     this.workDiv = document.getElementsByClassName('Main')[0]
     this.state = state
@@ -6,6 +14,9 @@ export default class renderHandler {
     this.showLeaderboard = false
   }
 
+  /**
+   * Render home screen.
+   */
   renderStart () {
     const createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
     createRender.append(this.createElement({ type: 'h1', innerHTML: 'Welcome to Quiz' }))
@@ -17,6 +28,9 @@ export default class renderHandler {
       'click', () => this.state.changeState(this.state.gameStates.NameChoice))
   }
 
+  /**
+   * Renders the enter name screen.
+   */
   renderNameRequest () {
     const createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
     createRender.append(this.createElement({ type: 'h1', innerHTML: 'Enter your name:' }))
@@ -29,6 +43,12 @@ export default class renderHandler {
       'click', () => this.state.changeState(this.state.gameStates.Question))
   }
 
+  /**
+   * Renders the question and its answers.
+   *
+   * @param {string} question The question to be rendered.
+   * @param {object} data The answers to be rendered.
+   */
   renderQuestion (question, data) {
     const holdDiv = this.createElement({ type: 'div' })
     let createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
@@ -52,6 +72,9 @@ export default class renderHandler {
       })
   }
 
+  /**
+   * Renders answered screen.
+   */
   renderAnswered () {
     const createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
     createRender.append(this.createElement({ type: 'h1', innerHTML: 'You answered correctly!' }))
@@ -63,6 +86,9 @@ export default class renderHandler {
       'click', () => this.state.changeState(this.state.gameStates.Question))
   }
 
+  /**
+   * Renders the game lost screen.
+   */
   renderGameLost () {
     const createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
     createRender.append(this.createElement({ type: 'h1', innerHTML: 'You lost!' }))
@@ -74,6 +100,11 @@ export default class renderHandler {
       'click', () => this.state.changeState(this.state.gameStates.Start))
   }
 
+  /**
+   * Renders the game won screen.
+   *
+   * @param {number} timeTaken The time taken to complete the game.
+   */
   renderGameWon (timeTaken) {
     const createRender = this.createElement({ type: 'div', className: 'Information-Wrapper' })
     createRender.append(this.createElement({ type: 'h1', innerHTML: 'You won in ' + timeTaken + ' seconds' }))
@@ -85,6 +116,9 @@ export default class renderHandler {
       'click', () => this.state.changeState(this.state.gameStates.Start))
   }
 
+  /**
+   * Renders the leaderboard button.
+   */
   renderLeaderboardButton () {
     const leaderBoardButton = document.getElementsByClassName('Leaderboard')[0]
     leaderBoardButton.addEventListener('click', e => {
@@ -92,6 +126,9 @@ export default class renderHandler {
     })
   }
 
+  /**
+   * Renders the leaderboard.
+   */
   renderLeaderboard () {
     const workDiv = this.createElement({ type: 'div', className: 'leaderBoard' })
     const storage = JSON.parse(localStorage.getItem('topList'))
@@ -99,7 +136,7 @@ export default class renderHandler {
     for (let i = 0; i < storage.length; i++) {
       workDiv.append(this.createElement({
         type: 'p',
-        innerHTML: i + '. ' + storage[i].name + ' - ' + storage[i].value
+        innerHTML: (i + 1) + '. ' + storage[i].name + ' - ' + storage[i].score
       }))
     }
 
@@ -120,6 +157,12 @@ export default class renderHandler {
     }
   }
 
+  /**
+   * Renders the answers.
+   *
+   * @param {object} data The answers to be rendered.
+   * @returns {object} The answers.
+   */
   renderAnswers (data = undefined) {
     if (data === undefined) {
       return this.createElement({ type: 'input', style: 'text', id: 'input', name: 'answer' })
@@ -146,17 +189,18 @@ export default class renderHandler {
   }
 
   /**
+   * Creates an element with the given data.
    *
-   * @param {object} elementData containing parameters for element creation. Possible params include ->
-   * @param {string} elementData.type element type, e.g. 'div', 'button'.
-   * @param {string} elementData.style type of element, e.g. 'radio', 'checkbox'.
-   * @param {string} elementData.id id of element.
-   * @param {string} elementData.innerHTML html content of element.
-   * @param {string} elementData.value value inside of element.
-   * @param {string} elementData.name name of element.
-   * @param {string} elementData.className class of DOM object.
-   * @param {HTMLElement} elementData.htmlFor id for the binding of element.
-   * @returns {HTMLElement} full element with its data.
+   * @param {object} elementData - Containing parameters for element creation. Possible params include.
+   * @param {string} elementData.type - Element type, e.g. 'div', 'button'.
+   * @param {string} elementData.style - Type of element, e.g. 'radio', 'checkbox'.
+   * @param {string} elementData.id - Id of element.
+   * @param {string} elementData.innerHTML - HTML content of element.
+   * @param {string} elementData.value - Value inside of element.
+   * @param {string} elementData.name - Name of element.
+   * @param {string} elementData.className - Class of DOM object.
+   * @param {HTMLElement} elementData.htmlFor - Id for the binding of element.
+   * @returns {HTMLElement} - Full element with its data.
    */
   createElement (elementData) {
     const tempElement = document.createElement(elementData.type)
