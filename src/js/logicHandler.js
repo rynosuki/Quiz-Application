@@ -21,16 +21,17 @@ export default class logicHandler {
    *  Creates a leaderboard in local storage if it doesn't exist.
    */
   logicLeaderboard () {
+    console.log(localStorage.getItem('topList'))
     if (localStorage.getItem('topList') === null) {
       // Create an empty array to hold the top scores
       const topScores = []
 
       // Add some initial scores to the array
-      topScores.push({ name: 'undefined', score: Infinity })
-      topScores.push({ name: 'undefined', score: Infinity })
-      topScores.push({ name: 'undefined', score: Infinity })
-      topScores.push({ name: 'undefined', score: Infinity })
-      topScores.push({ name: 'undefined', score: Infinity })
+      topScores.push({ name: 'undefined', score: 999 })
+      topScores.push({ name: 'undefined', score: 999 })
+      topScores.push({ name: 'undefined', score: 999 })
+      topScores.push({ name: 'undefined', score: 999 })
+      topScores.push({ name: 'undefined', score: 999 })
 
       // Store the top scores array in local storage
       localStorage.setItem('topList', JSON.stringify(topScores))
