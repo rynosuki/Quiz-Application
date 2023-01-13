@@ -30,3 +30,5 @@ By using your terminal use the following command:
 Linters are used by navigating to the folder then running the command
 - cd a2-quiz
 - npm run lint
+
+Supervised by Mikael Roos
